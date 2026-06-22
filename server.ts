@@ -655,7 +655,13 @@ app.post("/api/simulate", async (req, res) => {
         }
       });
 
-      simData = JSON.parse(response.text || "{}");
+      const responseText = response.text || "{}";
+      try {
+        simData = JSON.parse(responseText);
+      } catch (e) {
+        console.error("DEBUG: Failed to parse Gemini simulation response as JSON. Response text:", responseText);
+        throw new Error("API returned invalid JSON response.");
+      }
     }
 
     return res.json(simData);
