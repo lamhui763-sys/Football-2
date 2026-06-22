@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import MatchSimulator from "./components/MatchSimulator.tsx";
+import { ApiKeyDiagnostic } from "./components/ApiKeyDiagnostic.tsx";
+
 import {
   ResponsiveContainer,
   LineChart,
@@ -709,7 +711,7 @@ export default function App() {
     } : null;
 
     try {
-      const response = await fetch("/api/predict", {
+      const response = await fetch("/api/match-forecast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
@@ -961,6 +963,10 @@ export default function App() {
             ⚽ 賽事模擬直播 (文字實況)
           </button>
         </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <ApiKeyDiagnostic />
       </div>
 
       {/* Academic Purpose Disclaimer Banner */}
@@ -1681,7 +1687,8 @@ export default function App() {
                     <div className="bg-zinc-950 rounded-lg p-3.5 py-2.5 text-[10px] text-zinc-500 mt-4 leading-normal font-mono">
                       <p className="font-semibold text-zinc-400 mb-1">💡 排除指引及解決方法：</p>
                       1. **若遇到當日免費配額上限 (429/Quota)**: 此為免費 API 的頻率限制。點擊右路按鈕即可無縫載入備用數據體驗全盤功能。<br />
-                      2. **配置專屬金鑰**: 請於 AI Studio 右上角「Settings &gt; Secrets」面板添加自定義 `GEMINI_API_KEY`。
+                      2. **配置專屬金鑰**: 請於 AI Studio 右上角「Settings &gt; Secrets」面板添加自定義 `GEMINI_API_KEY`。<br />
+                      3. **若顯示 "Failed to fetch" (網路錯誤)**: 可能是您的瀏覽器廣告/追蹤攔截器（如 AdBlock、uBlock 或 Brave Shields）誤將包含 `predict` 的 API 路徑當作追蹤器攔截。請點擊瀏覽器網址列旁的盾牌/攔截器圖示暫時將此網址設為白名單，或點擊下方按鈕無縫載入離線德比備用數據。
                     </div>
                   </div>
                 </div>
@@ -1966,7 +1973,7 @@ export default function App() {
                             📊 分析指標板 (Key Metrics) :
                           </span>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            {prediction.agent1.keyMetrics.map((metric, i) => (
+                            {(prediction.agent1.keyMetrics || []).map((metric, i) => (
                               <div key={i} className="bg-zinc-950 border border-zinc-900 p-2.5 rounded-lg text-xs hover:border-zinc-800 transition flex items-center gap-2">
                                 <span className="text-blue-400 text-xs shrink-0 font-bold">●</span>
                                 <span className="text-zinc-300">{metric}</span>
@@ -2038,7 +2045,7 @@ export default function App() {
                             ⚠️ 質疑與黑天鵝風險警告 :
                           </span>
                           <div className="space-y-1.5">
-                            {prediction.agent3.keyRisks.map((risk, i) => (
+                            {(prediction.agent3.keyRisks || []).map((risk, i) => (
                               <div key={i} className="bg-zinc-950 border border-amber-500/10 p-2.5 pl-3.5 rounded-lg text-xs hover:border-amber-500/20 transition flex items-start gap-2.5">
                                 <span className="text-amber-500 text-xs shrink-0 font-bold mt-0.5">⚠️</span>
                                 <span className="text-zinc-300 leading-normal">{risk}</span>
@@ -2374,7 +2381,7 @@ export default function App() {
                         <div className="mt-5 border-t border-zinc-855 pt-4">
                           <span className="text-[10px] text-zinc-500 font-bold block mb-2.5">📋 近期對賽對局明細 :</span>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {prediction.historicalPerformance.h2hRecord.recentMatches.map((match, idx) => (
+                            {(prediction.historicalPerformance?.h2hRecord?.recentMatches || []).map((match, idx) => (
                               <div key={idx} className="bg-zinc-950 p-2.5 px-3.5 rounded-xl border border-zinc-900 hover:border-zinc-800 transition text-xs flex items-center justify-between">
                                 <span className="font-mono text-zinc-500 text-[10px]">{match.date}</span>
                                 <span className="font-semibold text-zinc-300 mx-2">{match.score}</span>
@@ -2407,7 +2414,7 @@ export default function App() {
                           </div>
 
                           <div className="space-y-2.5 flex-1">
-                            {prediction.historicalPerformance.teamAData.recentResults.map((res, i) => (
+                            {(prediction.historicalPerformance?.teamAData?.recentResults || []).map((res, i) => (
                               <div key={i} className="bg-zinc-950 border border-zinc-900 p-3 rounded-xl flex items-center justify-between gap-3 hover:border-zinc-850 transition">
                                 <div className="space-y-1">
                                   <div className="font-mono text-[9px] text-zinc-550">{res.date}</div>
@@ -2444,7 +2451,7 @@ export default function App() {
                           </div>
 
                           <div className="space-y-2.5 flex-1">
-                            {prediction.historicalPerformance.teamBData.recentResults.map((res, i) => (
+                            {(prediction.historicalPerformance?.teamBData?.recentResults || []).map((res, i) => (
                               <div key={i} className="bg-zinc-950 border border-zinc-900 p-3 rounded-xl flex items-center justify-between gap-3 hover:border-zinc-850 transition">
                                 <div className="space-y-1">
                                   <div className="font-mono text-[9px] text-zinc-550">{res.date}</div>
@@ -2490,7 +2497,7 @@ export default function App() {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-zinc-850/60">
-                              {prediction.historicalPerformance.teamAData.trends.map((item, idx) => (
+                              {(prediction.historicalPerformance?.teamAData?.trends || []).map((item, idx) => (
                                 <tr key={idx} className="hover:bg-zinc-900/20 transition">
                                   <td className="py-3 font-semibold text-zinc-300">{item.metric}</td>
                                   <td className="py-3 text-zinc-400 font-mono">{item.teamAValue}</td>
