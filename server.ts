@@ -34,10 +34,10 @@ function getGeminiClient(): GoogleGenAI {
 async function queryZhipuAI(messages: any[], model: string = "glm-4-flash", jsonMode: boolean = true) {
   let apiKey = process.env.ZHIPU_API_KEY;
   if (!apiKey || apiKey === "MY_ZHIPU_API_KEY" || apiKey.trim() === "") {
-    apiKey = "9faac9a6b0794af7a9db7fb594c88f5b.zf8EArqKxvco4fXc";
+    // apiKey = "9faac9a6b0794af7a9db7fb594c88f5b.zf8EArqKxvco4fXc";
   }
 
-  if (!apiKey) {
+  if (!apiKey || apiKey === "MY_ZHIPU_API_KEY" || apiKey.trim() === "") {
     throw new Error("ZHIPU_API_KEY environment variable is missing. Please configure it in your Secrets/Environment.");
   }
 
@@ -104,7 +104,7 @@ const SYSTEM_INSTRUCTION = `
 
 app.post("/api/predict", async (req, res) => {
     const { message, historicalData, provider, model } = req.body;
-    let selectedProvider = provider || (process.env.GEMINI_API_KEY ? "gemini" : "zhipu");
+    let selectedProvider = provider || (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== "" && process.env.GEMINI_API_KEY !== "MY_GEMINI_API_KEY" ? "gemini" : "zhipu");
     let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
     let historyContext = "";
 
@@ -554,7 +554,7 @@ app.post("/api/simulate", async (req, res) => {
     const aTeam = awayTeam || "巴塞隆納";
     const topic = focusTopic || "標準強強聯賽交鋒";
 
-    let selectedProvider = provider || (process.env.GEMINI_API_KEY ? "gemini" : "zhipu");
+    let selectedProvider = provider || (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== "" && process.env.GEMINI_API_KEY !== "MY_GEMINI_API_KEY" ? "gemini" : "zhipu");
     let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
 
   try {
