@@ -247,13 +247,17 @@ interface MatchSimulatorProps {
   initialAwayTeam?: string;
   initialFocusTopic?: string;
   autoTriggerKey?: string;
+  provider?: string;
+  model?: string;
 }
 
 export default function MatchSimulator({
   initialHomeTeam = "阿根廷",
   initialAwayTeam = "法國",
   initialFocusTopic = "傳統宿敵，互不相讓的防守反擊與高位逼搶對攻戰",
-  autoTriggerKey = ""
+  autoTriggerKey = "",
+  provider = "gemini",
+  model = "gemini-3.5-flash"
 }: MatchSimulatorProps) {
   const [homeTeam, setHomeTeam] = useState(initialHomeTeam);
   const [awayTeam, setAwayTeam] = useState(initialAwayTeam);
@@ -296,7 +300,9 @@ export default function MatchSimulator({
             body: JSON.stringify({
               homeTeam: initialHomeTeam,
               awayTeam: initialAwayTeam,
-              focusTopic: initialFocusTopic
+              focusTopic: initialFocusTopic,
+              provider: provider,
+              model: model
             })
           });
 
@@ -393,7 +399,9 @@ export default function MatchSimulator({
         body: JSON.stringify({
           homeTeam,
           awayTeam,
-          focusTopic
+          focusTopic,
+          provider: provider,
+          model: model
         })
       });
 

@@ -518,6 +518,8 @@ const CustomMarketTooltip = ({ active, payload, label }: any) => {
 
 export default function App() {
   const [mainTab, setMainTab] = useState<"predict" | "simulate">("predict");
+  const [analysisProvider, setAnalysisProvider] = useState<"gemini" | "zhipu">("gemini");
+  const [analysisModel, setAnalysisModel] = useState<string>("gemini-3.5-flash");
   const [inputVal, setInputVal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
@@ -712,7 +714,9 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
           message: queryText,
-          historicalData: historicalDataPayload
+          historicalData: historicalDataPayload,
+          provider: analysisProvider,
+          model: analysisModel
         }),
       });
 
@@ -911,10 +915,21 @@ export default function App() {
           </div>
           
           <div className="flex items-center space-x-3">
-            <span className="text-[11px] text-zinc-400 flex items-center bg-zinc-900 px-3 py-1.5 rounded-lg border border-zinc-800">
-              <Info className="w-3.5 h-3.5 mr-1.5 text-zinc-400" />
-              基於 Gemini-3.5-Flash
-            </span>
+            <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 space-x-2">
+              <span className="text-[10px] text-zinc-450 font-bold uppercase tracking-wider">分析引擎 :</span>
+              <select
+                value={analysisProvider}
+                onChange={(e) => {
+                  const val = e.target.value as "gemini" | "zhipu";
+                  setAnalysisProvider(val);
+                  setAnalysisModel(val === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
+                }}
+                className="bg-transparent text-[11px] text-zinc-100 font-bold focus:outline-none cursor-pointer pr-1"
+              >
+                <option value="gemini" className="bg-zinc-950 text-zinc-200">Gemini 3.5 Flash</option>
+                <option value="zhipu" className="bg-zinc-950 text-zinc-200">智譜 AI (GLM-4 / Flash)</option>
+              </select>
+            </div>
           </div>
         </div>
       </header>
@@ -965,6 +980,8 @@ export default function App() {
             initialAwayTeam={simAwayTeam}
             initialFocusTopic={simFocusTopic}
             autoTriggerKey={simTriggerKey}
+            provider={analysisProvider}
+            model={analysisModel}
           />
         </div>
       ) : (
