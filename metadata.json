@@ -1,0 +1,6 @@
+{
+  "name": "Football Match Predictor",
+  "description": "A multi-agent AI collaborative football prediction chatbot that analyzes data, predicts scores, and evaluates risks through constructive debate.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
