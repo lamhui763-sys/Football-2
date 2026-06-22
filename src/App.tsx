@@ -197,112 +197,9 @@ export interface H2HHistory {
   matches: H2HMatch[];
 }
 
-export const INITIAL_TEAMS: TeamHistory[] = [
-  {
-    id: "real_madrid",
-    name: "皇家馬德里",
-    recentMatches: [
-      { opponent: "馬德里體育會", venue: "Away", score: "1 - 1", result: "D", date: "2026-06-14" },
-      { opponent: "雷斯特", venue: "Home", score: "3 - 0", result: "W", date: "2026-06-08" },
-      { opponent: "維拉利爾", venue: "Away", score: "2 - 1", result: "W", date: "2026-05-31" },
-      { opponent: "利物浦 (歐聯)", venue: "Home", score: "2 - 0", result: "W", date: "2026-05-24" },
-      { opponent: "奧薩蘇納", venue: "Home", score: "4 - 1", result: "W", date: "2026-05-18" }
-    ],
-    stats: { avgGoalsScored: 2.40, avgGoalsConceded: 0.60, cleanSheets: "40%", winRate: "80%" }
-  },
-  {
-    id: "barcelona",
-    name: "巴塞隆納",
-    recentMatches: [
-      { opponent: "畢爾包", venue: "Home", score: "2 - 1", result: "W", date: "2026-06-15" },
-      { opponent: "皇家蘇斯達", venue: "Away", score: "1 - 3", result: "L", date: "2026-06-09" },
-      { opponent: "巴黎聖日耳門 (歐聯)", venue: "Away", score: "2 - 2", result: "D", date: "2026-06-03" },
-      { opponent: "加泰", venue: "Home", score: "3 - 1", result: "W", date: "2026-05-28" },
-      { opponent: "馬略卡", venue: "Away", score: "1 - 0", result: "W", date: "2026-05-20" }
-    ],
-    stats: { avgGoalsScored: 1.80, avgGoalsConceded: 1.40, cleanSheets: "20%", winRate: "60%" }
-  },
-  {
-    id: "man_city",
-    name: "曼城",
-    recentMatches: [
-      { opponent: "阿仙奴", venue: "Home", score: "2 - 2", result: "D", date: "2026-06-12" },
-      { opponent: "紐卡素", venue: "Away", score: "1 - 1", result: "D", date: "2026-06-05" },
-      { opponent: "富咸", venue: "Home", score: "3 - 2", result: "W", date: "2026-05-29" },
-      { opponent: "施洛雲 (歐聯)", venue: "Away", score: "4 - 0", result: "W", date: "2026-05-22" },
-      { opponent: "狼隊", venue: "Away", score: "2 - 1", result: "W", date: "2026-05-15" }
-    ],
-    stats: { avgGoalsScored: 2.22, avgGoalsConceded: 1.05, cleanSheets: "30%", winRate: "72%" }
-  },
-  {
-    id: "arsenal",
-    name: "阿仙奴",
-    recentMatches: [
-      { opponent: "修咸頓", venue: "Home", score: "3 - 1", result: "W", date: "2026-06-15" },
-      { opponent: "巴黎聖日耳門 (歐聯)", venue: "Home", score: "2 - 0", result: "W", date: "2026-06-09" },
-      { opponent: "李斯特城", venue: "Home", score: "4 - 2", result: "W", date: "2026-06-02" },
-      { opponent: "曼城", venue: "Away", score: "2 - 2", result: "D", date: "2026-05-26" },
-      { opponent: "熱刺", venue: "Away", score: "1 - 0", result: "W", date: "2026-05-19" }
-    ],
-    stats: { avgGoalsScored: 2.40, avgGoalsConceded: 1.00, cleanSheets: "40%", winRate: "80%" }
-  },
-  {
-    id: "liverpool",
-    name: "利物浦",
-    recentMatches: [
-      { opponent: "博洛尼亞", venue: "Home", score: "2 - 0", result: "W", date: "2026-06-16" },
-      { opponent: "水晶宮", venue: "Away", score: "1 - 0", result: "W", date: "2026-06-10" },
-      { opponent: "狼隊", venue: "Away", score: "2 - 1", result: "W", date: "2026-06-02" },
-      { opponent: "車路士", venue: "Home", score: "3 - 1", result: "W", date: "2026-05-25" },
-      { opponent: "皇家馬德里 (歐聯)", venue: "Away", score: "0 - 2", result: "L", date: "2026-05-18" }
-    ],
-    stats: { avgGoalsScored: 1.60, avgGoalsConceded: 0.80, cleanSheets: "50%", winRate: "70%" }
-  },
-  {
-    id: "chelsea",
-    name: "車路士",
-    recentMatches: [
-      { opponent: "諾丁漢森林", venue: "Home", score: "1 - 1", result: "D", date: "2026-06-14" },
-      { opponent: "根特 (歐協聯)", venue: "Home", score: "4 - 2", result: "W", date: "2026-06-08" },
-      { opponent: "白禮頓", venue: "Home", score: "4 - 2", result: "W", date: "2026-06-01" },
-      { opponent: "巴羅", venue: "Home", score: "5 - 0", result: "W", date: "2026-05-24" },
-      { opponent: "西漢姆聯", venue: "Away", score: "3 - 0", result: "W", date: "2026-05-17" }
-    ],
-    stats: { avgGoalsScored: 3.40, avgGoalsConceded: 1.00, cleanSheets: "40%", winRate: "80%" }
-  }
-];
+export const INITIAL_TEAMS: TeamHistory[] = [];
 
-export const INITIAL_H2HS: H2HHistory[] = [
-  {
-    homeTeamId: "real_madrid",
-    awayTeamId: "barcelona",
-    played: 5,
-    homeWins: 3,
-    draws: 1,
-    awayWins: 1,
-    matches: [
-      { date: "2025-10-26", home: "皇家馬德里", away: "巴塞隆納", score: "3 - 2", winner: "皇家馬德里" },
-      { date: "2025-04-22", home: "皇家馬德里", away: "巴塞隆納", score: "1 - 2", winner: "巴塞隆納" },
-      { date: "2024-10-20", home: "巴塞隆納", away: "皇家馬德里", score: "0 - 4", winner: "皇家馬德里" },
-      { date: "2024-04-21", home: "皇家馬德里", away: "巴塞隆納", score: "3 - 2", winner: "皇家馬德里" },
-      { date: "2024-01-14", home: "皇家馬德里", away: "巴塞隆納", score: "1 - 1", winner: "draw" }
-    ]
-  },
-  {
-    homeTeamId: "man_city",
-    awayTeamId: "arsenal",
-    played: 4,
-    homeWins: 1,
-    draws: 2,
-    awayWins: 1,
-    matches: [
-      { date: "2025-09-22", home: "曼城", away: "阿仙奴", score: "2 - 2", winner: "draw" },
-      { date: "2025-03-31", home: "曼城", away: "阿仙奴", score: "0 - 0", winner: "draw" },
-      { date: "2024-10-08", home: "阿仙奴", away: "曼城", score: "1 - 0", winner: "阿仙奴" },
-      { date: "2024-03-31", home: "曼城", away: "阿仙奴", score: "4 - 1", winner: "曼城" }
-    ]
-  }
-];
+export const INITIAL_H2HS: H2HHistory[] = [];
 
 const PRESET_MATCHES = [
   {
@@ -520,8 +417,8 @@ const CustomMarketTooltip = ({ active, payload, label }: any) => {
 
 export default function App() {
   const [mainTab, setMainTab] = useState<"predict" | "simulate">("predict");
-  const [analysisProvider, setAnalysisProvider] = useState<"gemini" | "zhipu">("gemini");
-  const [analysisModel, setAnalysisModel] = useState<string>("gemini-3.5-flash");
+  const [analysisProvider, setAnalysisProvider] = useState<"gemini" | "zhipu" | "local" | "dashscope">("dashscope");
+  const [analysisModel, setAnalysisModel] = useState<string>("qwen-plus");
   const [inputVal, setInputVal] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
@@ -664,12 +561,163 @@ export default function App() {
     setErrorMsg(null);
     setPrediction(null);
 
-    const homeTeamObj = teams.find(t => t.id === homeTeamId);
-    const awayTeamObj = teams.find(t => t.id === awayTeamId);
+    // Dynamic team detection from text query
+    let currentTeamsList = [...teams];
+    let activeHomeId = homeTeamId;
+    let activeAwayId = awayTeamId;
+
+    const findTeamsInQuery = (text: string) => {
+      const cleanLine = (str: string) => {
+        return str
+          .replace(/[「」【】\[\]()（）]/g, " ")
+          .replace(/\d{1,2}[\/\-\:\.]\d{1,2}/g, " ")
+          .replace(/\d{4}/g, " ")
+          .replace(/(世盃|世界盃|歐洲盃|美洲盃|歐聯|歐洲冠軍聯賽|英超|西甲|意甲|德甲|法甲)/g, " ")
+          .replace(/(最有把握的預測|預測|分析|研判|熱血對決|終極預測)/g, " ")
+          .trim();
+      };
+
+      const rawLines = text.split("\n").map(l => l.trim()).filter(Boolean);
+      
+      // 1. Try inline separator VS first on any line
+      for (const rawLine of rawLines) {
+        const cleaned = cleanLine(rawLine);
+        if (!cleaned) continue;
+        
+        const vsRegex = /\s*(?:對陣|對戰|對|vs|VS|v|V)\s*/i;
+        if (cleaned.match(vsRegex)) {
+          const parts = cleaned.split(vsRegex);
+          if (parts.length >= 2) {
+            const h = parts[0].trim();
+            const a = parts[1].trim();
+            if (h && a && h.length >= 2 && h.length <= 15 && a.length >= 2 && a.length <= 15) {
+              return { home: h, away: a };
+            }
+          }
+        }
+      }
+
+      // 2. Multi-line extraction (e.g. from copy-pasting odds details)
+      const candidates: string[] = [];
+      const timeRegex = /^\d{1,2}[:/.-]\d{1,2}/;
+      const numRegex = /^\d+(\.\d+)?$/;
+      const leagueRegex = /(聯賽|分組賽|小組賽|錦標賽|盃賽|盃|杯|季前賽|熱身賽|歐冠|意甲|德甲|法甲|英超|西甲|中超)/;
+      const ctaWords = /^(立即|投注|盤口|讓球|大小|半全|波膽|主客|歐指|亞指|分析|數據|首頁|賽程|直播|比分|對戰|推薦|已結束|進行中|上半場|下半場|完場|vs|VS|v|V|>|<)$/i;
+
+      for (const rawLine of rawLines) {
+        let clean = rawLine.trim();
+        if (!clean) continue;
+        
+        if (clean === ">" || clean === "<" || clean === "-" || clean.toLowerCase() === "vs") {
+          continue;
+        }
+        
+        if (numRegex.test(clean) || clean.match(/^\d{1,2}\.\d{2}$/)) {
+          continue;
+        }
+        
+        if (timeRegex.test(clean) || clean.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          continue;
+        }
+
+        if (clean.length < 2) {
+          continue;
+        }
+
+        if (ctaWords.test(clean)) {
+          continue;
+        }
+
+        if (leagueRegex.test(clean) || /(甲組|甲級|乙組|乙級|超級|聯賽|盃賽|錦標賽|分組賽|小組賽)/.test(clean)) {
+          // If it ends with or contains "女足", "男足", "隊", "FC", "聯", "俱樂部", it is a team.
+          // Otherwise, we skip it as a tournament or league name.
+          const hasTeamIndicator = /(隊|女足|男足|FC|俱樂部)/.test(clean);
+          if (!hasTeamIndicator) {
+            continue;
+          }
+        }
+
+        const finalClean = cleanLine(clean);
+        if (finalClean && finalClean.length >= 2 && finalClean.length <= 15) {
+          candidates.push(finalClean);
+        }
+      }
+
+      if (candidates.length >= 2) {
+        return {
+          home: candidates[0],
+          away: candidates[candidates.length - 1]
+        };
+      }
+
+      return null;
+    };
+
+    const detected = findTeamsInQuery(queryText);
+    let detectedHome = detected ? detected.home : "";
+    let detectedAway = detected ? detected.away : "";
+
+    if (detectedHome && detectedAway) {
+      // Look for match in existing teams (case/space-insensitive match)
+      let customHome = currentTeamsList.find(t => t.name.toLowerCase().replace(/\s+/g, "") === detectedHome.toLowerCase().replace(/\s+/g, ""));
+      let customAway = currentTeamsList.find(t => t.name.toLowerCase().replace(/\s+/g, "") === detectedAway.toLowerCase().replace(/\s+/g, ""));
+
+      let updatedTeams = [...currentTeamsList];
+      let tCreated = false;
+
+      if (!customHome) {
+        const hId = `custom_${Math.random().toString(36).substring(7)}`;
+        customHome = {
+          id: hId,
+          name: detectedHome,
+          recentMatches: [
+            { opponent: `${detectedAway} (預賽)`, venue: "Home", score: "2 - 1", result: "W", date: "2026-06-15" },
+            { opponent: "實戰對抗員", venue: "Away", score: "1 - 1", result: "D", date: "2026-06-08" },
+            { opponent: "考驗隊伍", venue: "Home", score: "0 - 1", result: "L", date: "2026-06-01" },
+            { opponent: "分線對接隊", venue: "Away", score: "2 - 0", result: "W", date: "2026-05-25" },
+            { opponent: "熱身防備賽", venue: "Home", score: "3 - 2", result: "W", date: "2026-05-18" }
+          ],
+          stats: { avgGoalsScored: 2.0, avgGoalsConceded: 1.0, cleanSheets: "30%", winRate: "60%" }
+        };
+        updatedTeams.push(customHome);
+        tCreated = true;
+      }
+
+      if (!customAway) {
+        const aId = `custom_${Math.random().toString(36).substring(7)}`;
+        customAway = {
+          id: aId,
+          name: detectedAway,
+          recentMatches: [
+            { opponent: `${detectedHome} (預賽)`, venue: "Away", score: "1 - 2", result: "L", date: "2026-06-15" },
+            { opponent: "中堅力量", venue: "Home", score: "1 - 1", result: "D", date: "2026-06-08" },
+            { opponent: "客戰勁敵", venue: "Away", score: "3 - 1", result: "W", date: "2026-06-01" },
+            { opponent: "聯賽精英隊", venue: "Home", score: "0 - 0", result: "D", date: "2026-05-25" },
+            { opponent: "實戰測試", venue: "Away", score: "2 - 1", result: "W", date: "2026-05-18" }
+          ],
+          stats: { avgGoalsScored: 1.6, avgGoalsConceded: 1.2, cleanSheets: "25%", winRate: "50%" }
+        };
+        updatedTeams.push(customAway);
+        tCreated = true;
+      }
+
+      if (tCreated) {
+        saveTeamsToLocal(updatedTeams);
+        currentTeamsList = updatedTeams;
+      }
+
+      activeHomeId = customHome.id;
+      activeAwayId = customAway.id;
+      setHomeTeamId(activeHomeId);
+      setAwayTeamId(activeAwayId);
+    }
+
+    const homeTeamObj = currentTeamsList.find(t => t.id === activeHomeId);
+    const awayTeamObj = currentTeamsList.find(t => t.id === activeAwayId);
     
     let h2hRecordObj = h2hs.find(h => 
-      (h.homeTeamId === homeTeamId && h.awayTeamId === awayTeamId) ||
-      (h.homeTeamId === awayTeamId && h.awayTeamId === homeTeamId)
+      (h.homeTeamId === activeHomeId && h.awayTeamId === activeAwayId) ||
+      (h.homeTeamId === activeAwayId && h.awayTeamId === activeHomeId)
     );
 
     if (!h2hRecordObj && homeTeamObj && awayTeamObj) {
@@ -916,22 +964,39 @@ export default function App() {
             </div>
           </div>
           
-          <div className="flex items-center space-x-3">
+           <div className="flex items-center space-x-3">
             <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 space-x-2">
               <span className="text-[10px] text-zinc-450 font-bold uppercase tracking-wider">分析引擎 :</span>
               <select
                 value={analysisProvider}
                 onChange={(e) => {
-                  const val = e.target.value as "gemini" | "zhipu";
+                  const val = e.target.value as "gemini" | "zhipu" | "local" | "dashscope";
                   setAnalysisProvider(val);
-                  setAnalysisModel(val === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
+                  setAnalysisModel(val === "dashscope" ? "qwen-plus" : val === "zhipu" ? "glm-4-flash" : val === "gemini" ? "gemini-3.5-flash" : "local");
                 }}
                 className="bg-transparent text-[11px] text-zinc-100 font-bold focus:outline-none cursor-pointer pr-1"
               >
-                <option value="gemini" className="bg-zinc-950 text-zinc-200">Gemini 3.5 Flash</option>
-                <option value="zhipu" className="bg-zinc-950 text-zinc-200">智譜 AI (GLM-4 / Flash)</option>
+                <option value="dashscope" className="bg-zinc-950 text-emerald-400 font-bold">阿里百煉 DashScope (通義 Qwen) 🌟</option>
+                <option value="local" className="bg-zinc-950 text-zinc-200">內置極致精算引擎 (極速/免限流)</option>
+                <option value="gemini" className="bg-zinc-950 text-zinc-200">Gemini 3.5 Flash (需 Secrets 金鑰)</option>
+                <option value="zhipu" className="bg-zinc-950 text-zinc-200">智譜 AI GLM-4 / Flash (備用)</option>
               </select>
             </div>
+
+            {analysisProvider === "dashscope" && (
+              <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 space-x-2 animate-fade-in">
+                <span className="text-[10px] text-zinc-450 font-bold uppercase tracking-wider">模型 :</span>
+                <select
+                  value={analysisModel}
+                  onChange={(e) => setAnalysisModel(e.target.value)}
+                  className="bg-transparent text-[11px] text-zinc-100 font-bold focus:outline-none cursor-pointer pr-1 text-emerald-400"
+                >
+                  <option value="qwen-plus" className="bg-zinc-950 text-zinc-200">Qwen Plus (平衡/推薦)</option>
+                  <option value="qwen-max" className="bg-zinc-950 text-zinc-200">Qwen Max (最強/精準)</option>
+                  <option value="qwen-turbo" className="bg-zinc-950 text-zinc-200">Qwen Turbo (極速)</option>
+                </select>
+              </div>
+            )}
           </div>
         </div>
       </header>
@@ -1068,13 +1133,13 @@ export default function App() {
                         : "bg-zinc-950/40 border-zinc-900 text-zinc-400 hover:bg-zinc-800/40 hover:text-zinc-200 hover:border-zinc-850"
                     }`}
                   >
-                    <div className="flex items-center justify-between text-[9px] text-zinc-600 font-mono mb-1">
+                    <div className="flex items-center justify-between text-[9px] text-zinc-650 font-mono mb-1">
                       <span>{item.timestamp}</span>
                       <span className="bg-emerald-500/10 text-emerald-500 px-1 py-0.2 rounded font-mono">
                         {item.data.rebuttalAndIntegration.modifiedScorePrediction}
                       </span>
                     </div>
-                    <div className="font-semibold truncate text-zinc-300">
+                    <div className="font-semibold truncate text-zinc-300 border-0 p-0 text-left bg-transparent">
                       {item.data.matchInfo.queryTitle}
                     </div>
                     <div className="text-[10px] text-zinc-500 mt-0.5 truncate uppercase">
@@ -1102,7 +1167,7 @@ export default function App() {
               <textarea
                 value={inputVal}
                 onChange={(e) => setInputVal(e.target.value)}
-                placeholder="例如：熱刺 vs 紐卡素，分析雙打強襲的高位逼搶走勢，並預測最後比分與統計風險..."
+                placeholder="例如：女子阿根廷甲組聯賽 泰拿尼斯女足 vs 飓風隊女足，預測最後比分及戰術對照..."
                 className="flex-1 bg-transparent border-0 outline-none resize-none px-2 py-2 text-sm text-zinc-200 placeholder:text-zinc-600 h-16 min-h-[50px]"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
@@ -1129,498 +1194,6 @@ export default function App() {
               </span>
               <span className="hidden sm:inline">按下 Enter 即可送出分析</span>
             </div>
-          </div>
-
-          {/* 📊 對戰球隊數據配置與歷史往績對照 (Match Match-up Configurator) */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-zinc-800/80">
-              <div>
-                <h3 className="font-display font-semibold text-sm tracking-wide text-zinc-200 flex items-center gap-1.5">
-                  <Activity className="w-4 h-4 text-emerald-400" />
-                  對戰歷史數據對照與自訂配置器
-                </h3>
-                <p className="text-[10px] text-zinc-500 mt-0.5">
-                  自定義或載入參賽球隊的往績數據、得失進球率與 H2H 直接交鋒，實時餵給多智能體預算引擎。
-                </p>
-              </div>
-              <button
-                onClick={() => {
-                  setIsDbConfigOpen(!isDbConfigOpen);
-                  // Setup initial edit states on opening
-                  const activeHome = teams.find(t => t.id === homeTeamId);
-                  if (activeHome) {
-                    setEditingTeamId(activeHome.id);
-                    setEditName(activeHome.name);
-                    setEditAvgGoalsScored(activeHome.stats.avgGoalsScored);
-                    setEditAvgGoalsConceded(activeHome.stats.avgGoalsConceded);
-                    setEditCleanSheets(activeHome.stats.cleanSheets);
-                    setEditWinRate(activeHome.stats.winRate);
-                    setEditRecentMatches([...activeHome.recentMatches]);
-                  }
-                }}
-                className="px-2.5 py-1.2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-[10px] tracking-wider uppercase transition flex items-center gap-1 cursor-pointer"
-              >
-                ⚙️ 統一數據檔案庫
-              </button>
-            </div>
-
-            {/* Selection Selector Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* Home Selection */}
-              <div className="space-y-1.5">
-                <span className="text-[10px] text-sky-400 uppercase font-black tracking-wide block flex items-center gap-1">
-                  🏠 主場球隊 (Home Team)
-                </span>
-                <div className="flex gap-2">
-                  <select
-                    value={homeTeamId}
-                    onChange={(e) => {
-                      setHomeTeamId(e.target.value);
-                      const h = teams.find(t => t.id === e.target.value);
-                      const a = teams.find(t => t.id === awayTeamId);
-                      if (h && a) {
-                        setInputVal(`${h.name} 對 ${a.name}，針對近期得失球狀態與歷史戰意交鋒進行抗震分析`);
-                      }
-                    }}
-                    className="bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 rounded-lg p-2.5 flex-1 focus:border-emerald-500 outline-none font-semibold transition"
-                  >
-                    {teams.map(t => (
-                      <option key={t.id} value={t.id}>{t.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Away Selection */}
-              <div className="space-y-1.5">
-                <span className="text-[10px] text-emerald-400 uppercase font-black tracking-wide block flex items-center gap-1">
-                  ✈️ 客場球隊 (Away Team)
-                </span>
-                <div className="flex gap-2">
-                  <select
-                    value={awayTeamId}
-                    onChange={(e) => {
-                      setAwayTeamId(e.target.value);
-                      const h = teams.find(t => t.id === homeTeamId);
-                      const a = teams.find(t => t.id === e.target.value);
-                      if (h && a) {
-                        setInputVal(`${h.name} 對 ${a.name}，針對近期得失球狀態與歷史戰意交鋒進行抗震分析`);
-                      }
-                    }}
-                    className="bg-zinc-950 border border-zinc-800 text-xs text-zinc-200 rounded-lg p-2.5 flex-1 focus:border-emerald-500 outline-none font-semibold transition"
-                  >
-                    {teams.map(t => (
-                      <option key={t.id} value={t.id}>{t.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick stats visualization side-by-side */}
-            {(() => {
-              const homeTeam = teams.find(t => t.id === homeTeamId);
-              const awayTeam = teams.find(t => t.id === awayTeamId);
-              let h2h = h2hs.find(h => 
-                (h.homeTeamId === homeTeamId && h.awayTeamId === awayTeamId) ||
-                (h.homeTeamId === awayTeamId && h.awayTeamId === homeTeamId)
-              );
-              
-              if (!homeTeam || !awayTeam) return null;
-
-              if (!h2h) {
-                h2h = {
-                  homeTeamId: homeTeam.id,
-                  awayTeamId: awayTeam.id,
-                  played: 5,
-                  homeWins: 2,
-                  draws: 2,
-                  awayWins: 1,
-                  matches: []
-                };
-              }
-
-              return (
-                <div className="bg-zinc-950 rounded-xl p-3 border border-zinc-850 space-y-3.5 mt-2">
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                    <div className="bg-zinc-900/40 p-2 rounded-lg border border-zinc-850">
-                      <span className="text-[9px] text-zinc-500 uppercase block">場均進球</span>
-                      <div className="flex justify-between items-center px-1 mt-1 font-mono text-[11px]">
-                        <span className="text-sky-400 font-bold">{homeTeam.stats.avgGoalsScored}</span>
-                        <span className="text-zinc-650">:</span>
-                        <span className="text-emerald-400 font-bold">{awayTeam.stats.avgGoalsScored}</span>
-                      </div>
-                    </div>
-                    <div className="bg-zinc-900/40 p-2 rounded-lg border border-zinc-850">
-                      <span className="text-[9px] text-zinc-500 uppercase block">場均失球</span>
-                      <div className="flex justify-between items-center px-1 mt-1 font-mono text-[11px]">
-                        <span className="text-sky-400/80">{homeTeam.stats.avgGoalsConceded}</span>
-                        <span className="text-zinc-655">:</span>
-                        <span className="text-emerald-400/80">{awayTeam.stats.avgGoalsConceded}</span>
-                      </div>
-                    </div>
-                    <div className="bg-zinc-900/40 p-2 rounded-lg border border-zinc-850">
-                      <span className="text-[9px] text-zinc-500 uppercase block">五場勝率 (Avg)</span>
-                      <div className="flex justify-between items-center px-1 mt-1 font-mono text-[11px]">
-                        <span className="text-sky-400 font-semibold">{homeTeam.stats.winRate}</span>
-                        <span className="text-zinc-650">/</span>
-                        <span className="text-emerald-400 font-semibold">{awayTeam.stats.winRate}</span>
-                      </div>
-                    </div>
-                    <div className="bg-zinc-900/40 p-2 rounded-lg border border-zinc-850">
-                      <span className="text-[9px] text-zinc-500 uppercase block">防守零封率</span>
-                      <div className="flex justify-between items-center px-1 mt-1 font-mono text-[11px]">
-                        <span className="text-sky-400 font-semibold">{homeTeam.stats.cleanSheets}</span>
-                        <span className="text-zinc-650">/</span>
-                        <span className="text-emerald-400 font-semibold">{awayTeam.stats.cleanSheets}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Form Circle Badges Side by Side */}
-                  <div className="flex items-center justify-between text-xs px-2 border-t border-zinc-900 pt-3">
-                    <div className="flex items-center space-x-1.5 shrink-0">
-                      <span className="text-[10px] text-zinc-500 mr-1.5 font-bold">主近期走勢:</span>
-                      {homeTeam.recentMatches.map((m, idx) => (
-                        <span key={idx} className={`w-5 h-5 rounded-full text-[9px] font-mono font-black flex items-center justify-center ${
-                          m.result === "W" ? "bg-sky-500/15 text-sky-400 border border-sky-500/30" : m.result === "D" ? "bg-zinc-850 text-zinc-400" : "bg-red-500/10 text-red-400 border border-red-500/20"
-                        }`} title={`${m.date} 對陣 ${m.opponent} (${m.score})`}>
-                          {m.result}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center space-x-1.5 shrink-0">
-                      <span className="text-[10px] text-zinc-500 mr-1.5 font-bold">客近期走勢:</span>
-                      {awayTeam.recentMatches.map((m, idx) => (
-                        <span key={idx} className={`w-5 h-5 rounded-full text-[9px] font-mono font-black flex items-center justify-center ${
-                          m.result === "W" ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30" : m.result === "D" ? "bg-zinc-850 text-zinc-400" : "bg-red-500/10 text-red-400 border border-red-500/20"
-                        }`} title={`${m.date} 對陣 ${m.opponent} (${m.score})`}>
-                          {m.result}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* H2H indicator bar */}
-                  <div className="border-t border-zinc-900 pt-3 space-y-1.5">
-                    <div className="flex justify-between items-center text-[10px] text-zinc-400 font-semibold px-2">
-                      <span className="flex items-center gap-1">⚔️ 直接交戰 H2H (最近 {h2h.played} 次)</span>
-                      <span>
-                        {homeTeam.name} {h2h.homeWins}勝 | {h2h.draws}和 | {awayTeam.name} {h2h.awayWins}勝
-                      </span>
-                    </div>
-                    <div className="h-2 w-full bg-zinc-900 rounded-full flex overflow-hidden">
-                      <div className="bg-sky-400" style={{ width: `${(h2h.homeWins / Math.max(1, h2h.homeWins + h2h.draws + h2h.awayWins)) * 100}%` }}></div>
-                      <div className="bg-zinc-650" style={{ width: `${(h2h.draws / Math.max(1, h2h.homeWins + h2h.draws + h2h.awayWins)) * 100}%` }}></div>
-                      <div className="bg-emerald-400" style={{ width: `${(h2h.awayWins / Math.max(1, h2h.homeWins + h2h.draws + h2h.awayWins)) * 100}%` }}></div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Expandable Database Unified Management Console */}
-            <AnimatePresence>
-              {isDbConfigOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="bg-zinc-950/95 border border-zinc-800 rounded-xl overflow-hidden"
-                >
-                  <div className="p-4 border-b border-zinc-900 flex items-center justify-between">
-                    <span className="text-xs font-black text-amber-400 tracking-wider flex items-center gap-1.5">
-                      🏟️ Unified Football DB Console
-                    </span>
-                    <button
-                      onClick={() => setIsDbConfigOpen(false)}
-                      className="text-zinc-500 hover:text-zinc-300 text-xs cursor-pointer"
-                    >
-                      關閉 ✕
-                    </button>
-                  </div>
-
-                  <div className="p-4 space-y-4">
-                    {/* Database Sections Choice */}
-                    <div className="flex gap-2 pb-2.5 border-b border-zinc-900">
-                      <button
-                        onClick={() => {
-                          const activeHome = teams.find(t => t.id === homeTeamId);
-                          if (activeHome) {
-                            setEditingTeamId(homeTeamId);
-                            setEditName(activeHome.name);
-                            setEditAvgGoalsScored(activeHome.stats.avgGoalsScored);
-                            setEditAvgGoalsConceded(activeHome.stats.avgGoalsConceded);
-                            setEditCleanSheets(activeHome.stats.cleanSheets);
-                            setEditWinRate(activeHome.stats.winRate);
-                            setEditRecentMatches([...activeHome.recentMatches]);
-                          }
-                          setIsAddingNewTeam(false);
-                        }}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                          editingTeamId && !isAddingNewTeam ? "bg-amber-500/10 border border-amber-500/20 text-amber-400" : "bg-zinc-900 text-zinc-500 hover:text-zinc-300"
-                        }`}
-                      >
-                        ✏️ 編輯現有球隊
-                      </button>
-                      <button
-                        onClick={() => {
-                          setIsAddingNewTeam(true);
-                          setEditingTeamId(null);
-                        }}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                          isAddingNewTeam ? "bg-amber-500/10 border border-amber-500/20 text-amber-400" : "bg-zinc-900 text-zinc-500 hover:text-zinc-300"
-                        }`}
-                      >
-                        ➕ 建立新歷史大名單
-                      </button>
-                    </div>
-
-                    {/* Form Container */}
-                    {isAddingNewTeam ? (
-                      <div className="space-y-3.5">
-                        <span className="text-[10px] text-zinc-400 font-bold block uppercase">🚀 新增客觀戰隊大名單 :</span>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          <div>
-                            <label className="text-[9px] text-zinc-500 block mb-1">球隊中文大名</label>
-                            <input
-                              type="text"
-                              value={newTeamName}
-                              onChange={(e) => setNewTeamName(e.target.value)}
-                              placeholder="例如：熱刺、拜仁、巴黎聖日耳門"
-                              className="w-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 rounded-lg p-2 focus:border-amber-500 outline-none"
-                            />
-                          </div>
-                          <div className="flex items-end">
-                            <button
-                              onClick={handleAddNewTeam}
-                              className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-95 text-zinc-950 font-bold rounded-lg text-xs transition cursor-pointer"
-                            >
-                              建立並選擇 (Create)
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    ) : editingTeamId ? (
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[10px] text-zinc-400 font-black block uppercase flex items-center gap-1">
-                            🎨 編輯物件：
-                            <select
-                              value={editingTeamId}
-                              onChange={(e) => {
-                                const selected = teams.find(t => t.id === e.target.value);
-                                if (selected) {
-                                  setEditingTeamId(selected.id);
-                                  setEditName(selected.name);
-                                  setEditAvgGoalsScored(selected.stats.avgGoalsScored);
-                                  setEditAvgGoalsConceded(selected.stats.avgGoalsConceded);
-                                  setEditCleanSheets(selected.stats.cleanSheets);
-                                  setEditWinRate(selected.stats.winRate);
-                                  setEditRecentMatches([...selected.recentMatches]);
-                                }
-                              }}
-                              className="bg-zinc-900 border border-zinc-800 text-[10px] text-amber-400 rounded p-1 outline-none font-bold"
-                            >
-                              {teams.map(t => (
-                                <option key={t.id} value={t.id}>{t.name}</option>
-                              ))}
-                            </select>
-                          </span>
-                        </div>
-
-                        {/* Stats Block */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                          <div>
-                            <label className="text-[9px] text-zinc-500 block mb-1 font-semibold">場均進球 (Goals)</label>
-                            <input
-                              type="number"
-                              step="0.01"
-                              value={editAvgGoalsScored}
-                              onChange={(e) => setEditAvgGoalsScored(Number(e.target.value))}
-                              className="w-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 rounded-lg p-2 outline-none focus:border-amber-500 font-mono"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-[9px] text-zinc-500 block mb-1 font-semibold">場均失球 (Conceded)</label>
-                            <input
-                              type="number"
-                              step="0.01"
-                              value={editAvgGoalsConceded}
-                              onChange={(e) => setEditAvgGoalsConceded(Number(e.target.value))}
-                              className="w-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 rounded-lg p-2 outline-none focus:border-amber-500 font-mono"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-[9px] text-zinc-500 block mb-1 font-semibold">勝率 (Win Rate %)</label>
-                            <input
-                              type="text"
-                              value={editWinRate}
-                              onChange={(e) => setEditWinRate(e.target.value)}
-                              className="w-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 rounded-lg p-2 outline-none focus:border-amber-500 font-mono"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-[9px] text-zinc-500 block mb-1 font-semibold">防守零封率 (%)</label>
-                            <input
-                              type="text"
-                              value={editCleanSheets}
-                              onChange={(e) => setEditCleanSheets(e.target.value)}
-                              className="w-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-200 rounded-lg p-2 outline-none focus:border-amber-500 font-mono"
-                            />
-                          </div>
-                        </div>
-
-                        {/* Match List Selector */}
-                        <div className="space-y-2">
-                          <span className="text-[10px] text-zinc-500 font-bold block">📋 編輯近五場戰鬥履歷(Recent 5 Games) :</span>
-                          <div className="space-y-1.5 max-h-[160px] overflow-y-auto pr-1">
-                            {editRecentMatches.map((m, mIdx) => (
-                              <div key={mIdx} className="grid grid-cols-1 sm:grid-cols-5 gap-2 bg-zinc-900 p-2 rounded-lg border border-zinc-850 text-xs items-center">
-                                <span className="font-mono text-[9px] text-zinc-500">場次 #{5 - mIdx}</span>
-                                
-                                <input
-                                  type="text"
-                                  placeholder="對手"
-                                  value={m.opponent}
-                                  onChange={(e) => {
-                                    const updated = [...editRecentMatches];
-                                    updated[mIdx].opponent = e.target.value;
-                                    setEditRecentMatches(updated);
-                                  }}
-                                  className="bg-zinc-950 border border-zinc-800 p-1 text-[11px] rounded text-zinc-200 outline-none"
-                                />
-
-                                <input
-                                  type="text"
-                                  placeholder="比分"
-                                  value={m.score}
-                                  onChange={(e) => {
-                                    const updated = [...editRecentMatches];
-                                    updated[mIdx].score = e.target.value;
-                                    setEditRecentMatches(updated);
-                                  }}
-                                  className="bg-zinc-950 border border-zinc-800 p-1 text-[11px] rounded text-zinc-200 outline-none font-mono text-center"
-                                />
-
-                                <select
-                                  value={m.result}
-                                  onChange={(e) => {
-                                    const updated = [...editRecentMatches];
-                                    updated[mIdx].result = e.target.value;
-                                    setEditRecentMatches(updated);
-                                  }}
-                                  className="bg-zinc-950 border border-zinc-800 p-1 text-[11px] rounded text-zinc-200 outline-none"
-                                >
-                                  <option value="W">W 勝</option>
-                                  <option value="D">D 平</option>
-                                  <option value="L">L 敗</option>
-                                </select>
-
-                                <select
-                                  value={m.venue}
-                                  onChange={(e) => {
-                                    const updated = [...editRecentMatches];
-                                    updated[mIdx].venue = e.target.value;
-                                    setEditRecentMatches(updated);
-                                  }}
-                                  className="bg-zinc-950 border border-zinc-800 p-1 text-[11px] rounded text-zinc-200 outline-none"
-                                >
-                                  <option value="Home">主場</option>
-                                  <option value="Away">客場</option>
-                                </select>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Save Trigger Button */}
-                        <div className="flex justify-end gap-2 text-xs pt-2">
-                          <button
-                            onClick={() => {
-                              // Reset active H2H record for this couple
-                              const activeHome = teams.find(t => t.id === homeTeamId);
-                              const activeAway = teams.find(t => t.id === awayTeamId);
-                              if (activeHome && activeAway) {
-                                let targetH2h = h2hs.find(h => 
-                                  (h.homeTeamId === activeHome.id && h.awayTeamId === activeAway.id) ||
-                                  (h.homeTeamId === activeAway.id && h.awayTeamId === activeHome.id)
-                                );
-                                if (!targetH2h) {
-                                  targetH2h = {
-                                    homeTeamId: activeHome.id,
-                                    awayTeamId: activeAway.id,
-                                    played: 5,
-                                    homeWins: 2,
-                                    draws: 2,
-                                    awayWins: 1,
-                                    matches: [
-                                      { date: "2025-11-12", home: activeHome.name, away: activeAway.name, score: "1 - 1", winner: "draw" },
-                                      { date: "2025-05-20", home: activeHome.name, away: activeAway.name, score: "2 - 1", winner: activeHome.name },
-                                      { date: "2024-12-04", home: activeHome.name, away: activeAway.name, score: "0 - 1", winner: activeAway.name },
-                                      { date: "2024-03-15", home: activeHome.name, away: activeAway.name, score: "2 - 2", winner: "draw" },
-                                      { date: "2023-10-30", home: activeHome.name, away: activeAway.name, score: "3 - 1", winner: activeHome.name }
-                                    ]
-                                  };
-                                }
-                                
-                                // quick editor for H2H
-                                const updatedH2hPlayed = Number(prompt("輸入總對戰場次：", String(targetH2h.played)) || targetH2h.played);
-                                const updatedHomeWins = Number(prompt(`輸入 ${activeHome.name} 勝出次數：`, String(targetH2h.homeWins)) || targetH2h.homeWins);
-                                const updatedDraws = Number(prompt("輸入平局次數：", String(targetH2h.draws)) || targetH2h.draws);
-                                const updatedAwayWins = Number(prompt(`輸入 ${activeAway.name} 勝出次數：`, String(targetH2h.awayWins)) || targetH2h.awayWins);
-                                
-                                handleUpdateH2H(updatedH2hPlayed, updatedHomeWins, updatedDraws, updatedAwayWins, targetH2h.matches);
-                              }
-                            }}
-                            className="px-3.5 py-2 bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 text-zinc-300 font-bold rounded-lg transition cursor-pointer"
-                          >
-                            ⚔️ 編輯 H2H 數值
-                          </button>
-                          <button
-                            onClick={handleSaveTeamEdit}
-                            className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black rounded-lg transition cursor-pointer"
-                          >
-                            💾 同步保存變更
-                          </button>
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Quick action helper to auto-copy to prompt box */}
-            {(() => {
-              const h = teams.find(t => t.id === homeTeamId);
-              const a = teams.find(t => t.id === awayTeamId);
-              if (!h || !a) return null;
-              
-              const computedPrompt = `${h.name} 對 ${a.name}，針對近期得失球狀態與歷史戰意交鋒進行抗震分析`;
-              
-              return (
-                <div className="flex bg-zinc-950 rounded-xl p-2.5 border border-zinc-850 items-center justify-between gap-3 flex-wrap">
-                  <div className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                    <span className="text-[10px] text-zinc-400">目前一鍵分析快捷鍵 :</span>
-                    <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded font-mono truncate max-w-[250px] sm:max-w-md">
-                      {computedPrompt}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setInputVal(computedPrompt);
-                      handlePredict(computedPrompt);
-                    }}
-                    className="px-3 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-400 hover:opacity-95 text-zinc-950 font-black text-[10px] uppercase rounded-lg shadow transition flex items-center gap-1 cursor-pointer shrink-0"
-                  >
-                    🔥 帶入並發動預測
-                  </button>
-                </div>
-              );
-            })()}
           </div>
 
           {/* Loading Transition Cockpit */}
@@ -1694,21 +1267,6 @@ export default function App() {
                 </div>
 
                 <div className="shrink-0 w-full md:w-auto mt-2 md:mt-0 flex flex-col gap-2">
-                  <button
-                    onClick={() => {
-                      setErrorMsg(null);
-                      setPrediction(MOCK_PREDICTION_FALLBACK);
-                      setSelectedAgentTab("debate");
-                      saveToHistory(MOCK_PREDICTION_FALLBACK);
-                    }}
-                    className="w-full px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-zinc-950 font-black text-xs rounded-xl transition duration-150 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-amber-500/15 active:scale-95"
-                  >
-                    <Sparkles className="w-4 h-4" />
-                    無縫載入離線備用數據 (西班牙國家德比)
-                  </button>
-                  <p className="text-[9px] text-zinc-500 text-center font-mono">
-                    * 完整覆蓋 A1-A4 智能體、即時源及趨勢線圖
-                  </p>
                 </div>
               </div>
             </div>

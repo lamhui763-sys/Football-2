@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { AlertTriangle } from 'lucide-react';
 
 export const ApiKeyDiagnostic: React.FC = () => {
-  const [status, setStatus] = useState<{ gemini: boolean; zhipu: boolean } | null>(null);
+  const [status, setStatus] = useState<{ gemini: boolean; zhipu: boolean; dashscope: boolean } | null>(null);
   const [loading, setLoading] = useState(true);
 
   const check = async () => {
@@ -22,7 +22,7 @@ export const ApiKeyDiagnostic: React.FC = () => {
     check(); 
   }, []);
 
-  if (loading || !status || (status.gemini && status.zhipu)) {
+  if (loading || !status || (status.gemini && status.zhipu && status.dashscope)) {
     return null;
   }
 
@@ -36,8 +36,9 @@ export const ApiKeyDiagnostic: React.FC = () => {
       <ul className="list-disc ml-4 mt-1 space-y-0.5">
         {!status.gemini && <li>Gemini API Key</li>}
         {!status.zhipu && <li>Zhipu AI API Key</li>}
+        {!status.dashscope && <li>阿里百煉 DashScope API Key (通義千問)</li>}
       </ul>
-      <p className="mt-2 text-[10px] text-red-300/70">請至環境變數配置頁面檢查設定後重新整理。</p>
+      <p className="mt-2 text-[10px] text-red-300/70">請至右上角 Secrets 面板添加對應金鑰名稱以解除在線限制。</p>
     </div>
   );
 };

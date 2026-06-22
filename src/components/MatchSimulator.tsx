@@ -320,19 +320,14 @@ export default function MatchSimulator({
           }, 500);
 
         } catch (e: any) {
-          console.error(e);
-          const rawErr = e.message || "";
-          if (rawErr.includes("quota") || rawErr.includes("429") || rawErr.includes("RESOURCE_EXHAUSTED") || rawErr.includes("limit")) {
-            setErrorMsg("⚠️ 由於您的 API 金鑰已達當日免費上限 (Quota Exceeded)，系統已無縫切換到『離線模擬引擎』為您即時跑完直播！");
-            const fallbackSim = generateLocalOfflineSimulation(initialHomeTeam, initialAwayTeam, initialFocusTopic);
-            setSimResults(fallbackSim);
-            setCurrentMin(0);
-            setTimeout(() => {
-              setIsPlaying(true);
-            }, 600);
-          } else {
-            setErrorMsg(e.message || "無法與智能體裁判直播連線，請檢查 API 金鑰。");
-          }
+          console.warn("Simulation API failed, falling back to offline simulation engine:", e);
+          setErrorMsg("⚠️ 由於 API 在線連線受限，系統已無縫切換到『離線模擬引擎』為您即時跑完直播！");
+          const fallbackSim = generateLocalOfflineSimulation(initialHomeTeam, initialAwayTeam, initialFocusTopic);
+          setSimResults(fallbackSim);
+          setCurrentMin(0);
+          setTimeout(() => {
+            setIsPlaying(true);
+          }, 600);
         } finally {
           setIsLoading(false);
         }
@@ -420,19 +415,14 @@ export default function MatchSimulator({
       }, 500);
 
     } catch (e: any) {
-      console.error(e);
-      const rawErr = e.message || "";
-      if (rawErr.includes("quota") || rawErr.includes("429") || rawErr.includes("RESOURCE_EXHAUSTED") || rawErr.includes("limit")) {
-        setErrorMsg("⚠️ 由於您的 API 金鑰已達當日免費上限 (Quota Exceeded)，系統已無縫切換到『離線模擬引擎』為您即時跑完直播！");
-        const fallbackSim = generateLocalOfflineSimulation(homeTeam, awayTeam, focusTopic);
-        setSimResults(fallbackSim);
-        setCurrentMin(0);
-        setTimeout(() => {
-          setIsPlaying(true);
-        }, 600);
-      } else {
-        setErrorMsg(e.message || "無法與智能體裁判直播連線，請檢查 API 金鑰。");
-      }
+      console.warn("Manual Simulation API failed, invoking offline engine fallback:", e);
+      setErrorMsg("⚠️ 由於 API 在線連線受限，系統已無縫切換到『離線模擬引擎』為您即時跑完直播！");
+      const fallbackSim = generateLocalOfflineSimulation(homeTeam, awayTeam, focusTopic);
+      setSimResults(fallbackSim);
+      setCurrentMin(0);
+      setTimeout(() => {
+        setIsPlaying(true);
+      }, 600);
     } finally {
       setIsLoading(false);
     }
