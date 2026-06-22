@@ -104,16 +104,16 @@ const SYSTEM_INSTRUCTION = `
 `.trim();
 
 app.post("/api/predict", async (req, res) => {
-  try {
     const { message, historicalData, provider, model } = req.body;
+    let selectedProvider = provider || (process.env.GEMINI_API_KEY ? "gemini" : "zhipu");
+    let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
+    let historyContext = "";
+
+  try {
     if (!message || typeof message !== "string") {
       return res.status(400).json({ error: "請輸入有效的足球賽事或足球問題" });
     }
 
-    const selectedProvider = provider || (process.env.GEMINI_API_KEY ? "gemini" : "zhipu");
-    const activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
-
-    let historyContext = "";
     if (historicalData && typeof historicalData === "object") {
       try {
         const home = historicalData.homeTeam || {};
@@ -423,26 +423,96 @@ app.post("/api/predict", async (req, res) => {
         },
       });
 
-      predictionData = JSON.parse(response.text || "{}");
+      const responseText = response.text || "{}";
+      try {
+        predictionData = JSON.parse(responseText);
+      } catch (e) {
+        console.error("DEBUG: Failed to parse Gemini response as JSON. Response text:", responseText);
+        throw new Error("API returned invalid JSON response.");
+      }
     }
 
     return res.json(predictionData);
 
   } catch (error: any) {
-    console.error("Predict endpoint error:", error);
+    console.error("DEBUG: Predict endpoint caught error:", JSON.stringify(error, Object.getOwnPropertyNames(error), 2));
     const rawMessage = error.message || (typeof error === "object" ? JSON.stringify(error) : String(error));
-    let customErrorMsg = "⚠️ 預測失敗了：我們暫時與 Gemini 預測伺服器失去聯繫，請確認您的 API 密鑰設置。";
+    console.log("DEBUG: rawMessage:", rawMessage);
     let isQuotaExceeded = false;
+    let customErrorMsg = "⚠️ 預測失敗了：我們暫時與 Gemini 預測伺服器失去聯繫，請確認您的 API 密鑰設置。";
 
     if (
-      error.status === 429 ||
-      error.statusCode === 429 ||
-      rawMessage.includes("429") ||
-      rawMessage.includes("quota") ||
-      rawMessage.includes("RESOURCE_EXHAUSTED") ||
-      rawMessage.includes("exceeded your current quota")
+      (error.status === 429) ||
+      (error.statusCode === 429) ||
+      (error.error && error.error.code === 429) ||
+      (rawMessage.includes("429")) ||
+      (rawMessage.includes("quota")) ||
+      (rawMessage.includes("RESOURCE_EXHAUSTED")) ||
+      (rawMessage.includes("exceeded your current quota"))
     ) {
       isQuotaExceeded = true;
+
+      // Automatic fallback to Zhipu if Gemini fails
+      if (selectedProvider === "gemini") {
+        console.log("DEBUG: Gemini quota exceeded, attempting fallback to Zhipu AI.");
+        try {
+          const systemInstruction = SYSTEM_INSTRUCTION;
+          const userMessage = `【重要指令：你必須利用內置的 web_search 搜尋工具查閱當前（2026年最新）關於雙方球隊的實時近況、歷史頭對頭 (H2H) 往績（最近5次對賽比分與雙方歷史勝平負）、各自最近 5 場賽事結果與對賽比分、聯賽最新排名、傷兵停賽名單、以及多項重要戰力趨勢指標（如期望進球xG、零封場數、傳球、陣容完整度等）。
+請確保將這些詳盡的歷史與近況數據填寫到 json 中的 \`historicalPerformance\` 欄位，不得捏造或空白。
+與此同等重要：
+1. Agent 1 (數據分析專家)：必須具體引用 \`historicalPerformance\` 中的 H2H 及兩隊近況統計展開預判。
+2. Agent 2 (比分預測大師)：必須基於對賽的場均失球率與交手勝率分佈，推導其初始預算比分。
+3. Agent 3 (統計與風險提示官)：必須從近期各自 5 場表現是否偏離 xG 與 H2H 的黑天鵝歷史數據出發，提出強力的質疑與風險警示。】\n\n針對以下賽事或問題，進行四個智能體（Agent 1：數據分析、Agent 2：比分預測、Agent 3：質疑與風險、Agent 4：戰術分析）的深度推導與最後整合：\n\n「${message}」\n\n${historyContext}\n\n請以「繁體中文（廣東話/台灣體育分析風格）」對答，並務必輸出符合以下 JSON 格式的純 JSON 對象（切勿有任何額外說明，直接返回 JSON 內容），必須包含對應的所有嵌套欄位：
+{
+  "matchInfo": { "homeTeam": "主隊球隊官方名稱", "awayTeam": "客隊球隊官方名稱", "queryTitle": "標題" },
+  "agent1": { "analysis": "數據與近期分析", "keyMetrics": ["數據1", "數據2", "數據3"] },
+  "agent2": { "scorePrediction": "比分預測如 2 - 1", "probabilities": { "homeWin": 50, "draw": 30, "awayWin": 20 }, "confidence": 75, "rationale": "預測偏向與論述" },
+  "agent3": { "critique": "統計反駁內容", "keyRisks": ["風險1", "風險2"], "marketAnalysisText": "市場分析", "marketSentimentTrend": [{ "timeStep": "5天前", "sentimentScore": 60, "oddsHome": 2.1, "oddsAway": 3.4, "predictionConfidence": 70 }, { "timeStep": "3天前", "sentimentScore": 55, "oddsHome": 2.2, "oddsAway": 3.2, "predictionConfidence": 72 }, { "timeStep": "臨場", "sentimentScore": 57, "oddsHome": 2.15, "oddsAway": 3.3, "predictionConfidence": 75 }] },
+  "tacticalAnalysis": { "formationMatchup": "4-3-3 對陣 4-2-3-1", "pressingEffectiveness": "逼搶效果", "setPieceThreat": "定位球威脅", "analystVerdict": "戰術版沙盤總結" },
+  "rebuttalAndIntegration": { "agent1Response": "A1回應A3對線及答辯", "agent2Response": "A2吸收質疑後的重置調整", "modifiedScorePrediction": "3 - 2", "modifiedConfidence": 80 },
+  "finalSynthesis": { "recommendation": "投注配置貼士", "summary": "終極總結內容", "riskRating": "中", "suggestedOption": "雙重機會" },
+  "historicalPerformance": {
+    "teamAData": {
+      "teamName": "主隊名稱",
+      "recentResults": [{ "opponent": "對手名1", "score": "2 - 1", "result": "W", "venue": "Home", "date": "2026-06-15" }, { "opponent": "對手名2", "score": "1 - 1", "result": "D", "venue": "Away", "date": "2026-06-08" }],
+      "trends": [{ "metric": "期望進球", "teamAValue": "場均 1.8", "teamBValue": "場均 1.2", "status": "advantage_a" }]
+    },
+    "teamBData": {
+      "teamName": "客隊名稱",
+      "recentResults": [{ "opponent": "對手名1", "score": "0 - 1", "result": "L", "venue": "Away", "date": "2026-06-12" }, { "opponent": "對手名2", "score": "2 - 0", "result": "W", "venue": "Home", "date": "2026-06-05" }]
+    },
+    "h2hRecord": {
+      "winsA": 2, "winsB": 1, "draws": 2,
+      "recentMatches": [{ "date": "2025-10-26", "score": "2 - 1", "winner": "teamA" }]
+    }
+  }
+}`;
+          const zhipuMessages = [
+            { role: "system", content: systemInstruction },
+            { role: "user", content: userMessage }
+          ];
+
+          const resText = await queryZhipuAI(zhipuMessages, "glm-4-flash", true);
+          let cleanedText = resText.trim();
+          if (cleanedText.startsWith("```")) {
+            cleanedText = cleanedText.replace(/^```json\s*/i, "").replace(/```$/, "").trim();
+          }
+          const fallbackData = JSON.parse(cleanedText);
+          fallbackData.groundingSources = [
+            { title: `智譜大模型 (glm-4-flash) 實時網絡分析 (Fallback)`, url: `https://open.bigmodel.cn` }
+          ];
+          console.log("DEBUG: Fallback successful.");
+          return res.json(fallbackData);
+        } catch (fallbackErr) {
+          console.error("DEBUG: Zhipu fallback failed:", fallbackErr);
+          return res.status(500).json({
+            error: "⚠️ Gemini 額度上限，且備用 Zhipu AI 預測也失敗了。請稍後重試。",
+            isQuotaExceeded: true,
+            raw: fallbackErr instanceof Error ? fallbackErr.message : String(fallbackErr)
+          });
+        }
+      }
+
       customErrorMsg = "⚠️ 您的 Gemini 帳戶已達當日免費額度上限或高頻呼叫限制 (Rate Limit / Quota Exceeded)。請稍等 1 分鐘後再試，或更換您的 API 金鑰。";
     } else {
       customErrorMsg = `⚠️ 預測失敗了：${rawMessage}`;
@@ -480,15 +550,15 @@ const SIMULATOR_SYSTEM_INSTRUCTION = `
 
 // API endpoint to simulate match
 app.post("/api/simulate", async (req, res) => {
-  try {
     const { homeTeam, awayTeam, focusTopic, provider, model } = req.body;
     const hTeam = homeTeam || "皇家馬德里";
     const aTeam = awayTeam || "巴塞隆納";
     const topic = focusTopic || "標準強強聯賽交鋒";
 
-    const selectedProvider = provider || (process.env.GEMINI_API_KEY ? "gemini" : "zhipu");
-    const activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
+    let selectedProvider = provider || (process.env.GEMINI_API_KEY ? "gemini" : "zhipu");
+    let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
 
+  try {
     let simData: any = {};
 
     if (selectedProvider === "zhipu") {
@@ -597,14 +667,68 @@ app.post("/api/simulate", async (req, res) => {
     let isQuotaExceeded = false;
 
     if (
-      error.status === 429 ||
-      error.statusCode === 429 ||
-      rawMessage.includes("429") ||
-      rawMessage.includes("quota") ||
-      rawMessage.includes("RESOURCE_EXHAUSTED") ||
-      rawMessage.includes("exceeded your current quota")
+      (error.status === 429) ||
+      (error.statusCode === 429) ||
+      (error.error && error.error.code === 429) ||
+      (rawMessage.includes("429")) ||
+      (rawMessage.includes("quota")) ||
+      (rawMessage.includes("RESOURCE_EXHAUSTED")) ||
+      (rawMessage.includes("exceeded your current quota"))
     ) {
       isQuotaExceeded = true;
+
+      // Automatic fallback to Zhipu if Gemini fails
+      if (selectedProvider === "gemini") {
+        console.log("Gemini quota exceeded, falling back to Zhipu AI for simulation.");
+        try {
+          const userContent = `請模擬 "${hTeam}" (代表: Agent 2 攻勢) 與 "${aTeam}" (代表: Agent 3 防反/質疑) 的整場精彩比賽。主題設定為: "${topic}"。
+請生成完備的上下半場每一分鐘與關鍵分鐘的文字直播記錄！
+請以繁體中文（廣東話/台灣體育解說混搭風格）回答，且必須輸出符合以下 JSON 格式的純 JSON 對象：
+{
+  "simulationMeta": {
+    "homeTeam": "${hTeam}",
+    "awayTeam": "${aTeam}",
+    "stadium": "智能戰術沙盤體育場",
+    "refereeName": "Agent 1 (即時直播裁判官)",
+    "finalScore": "總比分如 2 - 1",
+    "totalShotsHome": 14,
+    "totalShotsAway": 10,
+    "possessionHome": 55,
+    "possessionAway": 45
+  },
+  "timeline": [
+    {
+      "minute": 1,
+      "half": "first",
+      "speaker": "Agent 1",
+      "speakerName": "Agent 1 (主裁判兼主播)",
+      "type": "kickoff",
+      "title": "大戰開球",
+      "content": "文字直播台詞",
+      "currentHomeScore": 0,
+      "currentAwayScore": 0
+    }
+  ]
+}
+請確保 timeline 包含至少 12 個關鍵賽事時間節點的分佈。`;
+
+          const zhipuMessages = [
+            { role: "system", content: SIMULATOR_SYSTEM_INSTRUCTION },
+            { role: "user", content: userContent }
+          ];
+
+          const resText = await queryZhipuAI(zhipuMessages, "glm-4-flash", true);
+          let cleanedText = resText.trim();
+          if (cleanedText.startsWith("```")) {
+            cleanedText = cleanedText.replace(/^```json\s*/i, "").replace(/```$/, "").trim();
+          }
+          const simData = JSON.parse(cleanedText);
+          return res.json(simData);
+        } catch (fallbackErr) {
+          console.error("Zhipu fallback failed for simulation:", fallbackErr);
+        }
+      }
+
       customErrorMsg = "⚠️ 您的 Gemini 帳戶已達當日免費額度上限或高頻呼叫限制 (Rate Limit / Quota Exceeded)。請稍等 1 分鐘後再試，或更換您的 API 金鑰。";
     } else {
       customErrorMsg = `⚠️ 模擬失敗了：${rawMessage}`;
