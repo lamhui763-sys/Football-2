@@ -972,31 +972,48 @@ export default function App() {
                 onChange={(e) => {
                   const val = e.target.value as "gemini" | "zhipu" | "local" | "dashscope";
                   setAnalysisProvider(val);
-                  setAnalysisModel(val === "dashscope" ? "qwen-plus" : val === "zhipu" ? "glm-4-flash" : val === "gemini" ? "gemini-3.5-flash" : "local");
+                  setAnalysisModel(val === "dashscope" ? "qwen-plus" : val === "zhipu" ? "glm-4-flash" : val === "gemini" ? "gemini-1.5-flash" : "local");
                 }}
                 className="bg-transparent text-[11px] text-zinc-100 font-bold focus:outline-none cursor-pointer pr-1"
               >
                 <option value="dashscope" className="bg-zinc-950 text-emerald-400 font-bold">阿里百煉 DashScope (通義 Qwen) 🌟</option>
                 <option value="local" className="bg-zinc-950 text-zinc-200">內置極致精算引擎 (極速/免限流)</option>
-                <option value="gemini" className="bg-zinc-950 text-zinc-200">Gemini 3.5 Flash (需 Secrets 金鑰)</option>
+                <option value="gemini" className="bg-zinc-950 text-zinc-200">Gemini (通用 AI 模型)</option>
                 <option value="zhipu" className="bg-zinc-950 text-zinc-200">智譜 AI GLM-4 / Flash (備用)</option>
               </select>
             </div>
 
-            {analysisProvider === "dashscope" && (
-              <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 space-x-2 animate-fade-in">
-                <span className="text-[10px] text-zinc-450 font-bold uppercase tracking-wider">模型 :</span>
-                <select
-                  value={analysisModel}
-                  onChange={(e) => setAnalysisModel(e.target.value)}
-                  className="bg-transparent text-[11px] text-zinc-100 font-bold focus:outline-none cursor-pointer pr-1 text-emerald-400"
-                >
-                  <option value="qwen-plus" className="bg-zinc-950 text-zinc-200">Qwen Plus (平衡/推薦)</option>
-                  <option value="qwen-max" className="bg-zinc-950 text-zinc-200">Qwen Max (最強/精準)</option>
-                  <option value="qwen-turbo" className="bg-zinc-950 text-zinc-200">Qwen Turbo (極速)</option>
-                </select>
-              </div>
-            )}
+            <div className="flex items-center bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-2 space-x-2">
+              <span className="text-[10px] text-zinc-450 font-bold uppercase tracking-wider">模型 :</span>
+              <select
+                value={analysisModel}
+                onChange={(e) => setAnalysisModel(e.target.value)}
+                className="bg-transparent text-[11px] text-zinc-100 font-bold focus:outline-none cursor-pointer pr-1 text-emerald-400"
+              >
+                {analysisProvider === "dashscope" && (
+                  <>
+                    <option value="qwen-plus" className="bg-zinc-950 text-zinc-200">Qwen Plus (平衡)</option>
+                    <option value="qwen-max" className="bg-zinc-950 text-zinc-200">Qwen Max (最強)</option>
+                    <option value="qwen-turbo" className="bg-zinc-950 text-zinc-200">Qwen Turbo (極速)</option>
+                  </>
+                )}
+                {analysisProvider === "gemini" && (
+                  <>
+                    <option value="gemini-3.5-flash" className="bg-zinc-950 text-emerald-400 font-bold">Gemini 3.5 Flash (最強/精準)</option>
+                    <option value="gemini-3.1-flash" className="bg-zinc-950 text-zinc-200">Gemini 3.1 Flash (預設/標準)</option>
+                    <option value="gemini-2.0-flash-exp" className="bg-zinc-950 text-zinc-200">Gemini 2.0 Flash (實驗)</option>
+                    <option value="gemini-1.5-pro" className="bg-zinc-950 text-zinc-200">Gemini 1.5 Pro (進階)</option>
+                    <option value="gemini-1.5-flash" className="bg-zinc-950 text-zinc-200">Gemini 1.5 Flash (平衡)</option>
+                  </>
+                )}
+                {analysisProvider === "zhipu" && (
+                  <option value="glm-4-flash" className="bg-zinc-950 text-zinc-200">GLM-4 Flash</option>
+                )}
+                {analysisProvider === "local" && (
+                  <option value="local" className="bg-zinc-950 text-zinc-200">Local</option>
+                )}
+              </select>
+            </div>
           </div>
         </div>
       </header>

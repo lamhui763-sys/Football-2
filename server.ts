@@ -170,18 +170,20 @@ const SYSTEM_INSTRUCTION = `
 3. **AI Agent 3 (統計質疑與風險提示官 - 核心反對派)**:
    - 專門挑戰與反對 Agent 1 的穩健主張與 Agent 2 的具體預測，尋找邏輯漏洞與潛在黑天鵝事件。
    - 分析市場隨時間熱度偏好與賠率走勢的博弈關係，提供風險與信心度對比。
+   - **必須提供具體的統計學理據**（例如：歷史數據的標準差、對比顯著性差異、模型局限性等），並結合關鍵風險提示（如天氣、場地、核心球員缺陣等具體變數）。
 
 4. **AI Agent 4 (戰術分析師)**:
-   - 針對兩隊的常規陣式配合（如 4-3-3 對 4-2-3-1）、高位壓迫防卷、定位球演練、以及主帥排兵布陣的實戰克制性進行深入的沙盤推演與 verdict Verdict 結論。
+   - 針對兩隊的常規陣式配合（如 4-3-3 對 4-2-3-1）、高位壓迫防卷、定位球演練、以及主帥排兵布陣的實戰克制性進行深入的沙盤推演與 Verdict 結論。
 
-5. **答辯、修正與終極合成 (Rebuttal, Modified Prediction and Synthesis)**:
-   - 組織 Agent 1 針對 Agent 3 提問對線、給出答辯。
-   - 讓 Agent 2 理性吸收 A3 的質疑，修正其比分預測。
+5. **循環辯論機制與終極合成**:
+   - Agent 1、2、3 必須進行**至少兩輪**的反駁與回应循環，觀點碰撞。
+   - Agent 3 在每一輪都必須提出具體的數據質疑或風險分析。
+   - Agent 1 和 Agent 2 需針對 A3 的質疑進行深入回應，解釋其分析的合理性，或主動根據數據邏輯進行微調。
    - 最後由系統輸出終極推薦配比（包含合意盤口及賽果配置總結）。
 
 【數據幻覺檢查器指令】：
 在分析中若涉及「歷史對賽紀錄」或「歷史數據」，AI **必須**在 \`groundingSources\` 欄位中輸出真實、可查證的參考 URL。
-若在搜尋後確實無法找到任何對應的歷史對戰紀錄，AI 必須在分析報告內容中明確標示「無歷史對戰紀錄」警示，且嚴禁編造任何虛構數據。
+若在搜尋後無法找到確切、真實的歷史對戰紀錄，AI 必須在分析報告內容中明確且顯著地標示「⚠️ [警示]：查無歷史對戰紀錄」或「⚠️ [警示]：歷史數據無法證實」，且嚴禁編造任何虛構的對戰日期、比分或勝負結論。若AI無法保證數據真實性，則必須直接承認不足。
 
 所有輸出必須完全符合所提供的 JSON Schema 格式。
 `.trim();
@@ -533,7 +535,7 @@ function generateLocalFallbackSimulation(hTeam: string, aTeam: string, topic: st
 app.post("/api/match-forecast", async (req, res) => {
     const { message, historicalData, provider, model } = req.body;
     let selectedProvider = provider || (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== "" && process.env.GEMINI_API_KEY !== "MY_GEMINI_API_KEY" ? "gemini" : "zhipu");
-    let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
+    let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-1.5-flash");
     let historyContext = "";
 
   try {
@@ -689,7 +691,12 @@ app.post("/api/match-forecast", async (req, res) => {
       if (!cleanedText) {
         throw new Error("Received empty response from AI model");
       }
-      predictionData = JSON.parse(cleanedText);
+      try {
+        predictionData = JSON.parse(cleanedText);
+      } catch (e) {
+        console.error("Failed to parse AI response as JSON:", cleanedText);
+        throw new Error(`Failed to parse AI response as JSON: ${cleanedText.substring(0, 50)}...`);
+      }
       predictionData.groundingSources = [
         { title: `阿里百煉高精度引擎 (${activeModel}) 推理預測`, url: `https://llm-iqzsmdt63np738h1.cn-beijing.maas.aliyuncs.com` }
       ];
@@ -1024,7 +1031,7 @@ app.post("/api/simulate", async (req, res) => {
     const topic = focusTopic || "標準強強聯賽交鋒";
 
     let selectedProvider = provider || (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== "" && process.env.GEMINI_API_KEY !== "MY_GEMINI_API_KEY" ? "gemini" : "zhipu");
-    let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-3.5-flash");
+    let activeModel = model || (selectedProvider === "zhipu" ? "glm-4-flash" : "gemini-1.5-flash");
 
   try {
     let simData: any = {};

@@ -257,7 +257,7 @@ export default function MatchSimulator({
   initialFocusTopic = "傳統宿敵，互不相讓的防守反擊與高位逼搶對攻戰",
   autoTriggerKey = "",
   provider = "gemini",
-  model = "gemini-3.5-flash"
+  model = "gemini-1.5-flash"
 }: MatchSimulatorProps) {
   const [homeTeam, setHomeTeam] = useState(initialHomeTeam);
   const [awayTeam, setAwayTeam] = useState(initialAwayTeam);
